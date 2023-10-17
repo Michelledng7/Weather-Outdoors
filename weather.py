@@ -17,8 +17,12 @@ if __name__ == '__main__':
     print('\n Getting the Current Weather Status in your city \n')
     city = input('\n What city are you in? \n')
 
+# check for empty strings or string with spaces
+    if not bool(city.strip()):
+        city = 'Sydney'
+
     weather_data = get_current_weather(city)
     print('\n')
-    print(weather_data)
+    pprint(weather_data)
         
 
