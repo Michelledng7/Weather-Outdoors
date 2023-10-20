@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request
 from weather import get_current_weather
 from waitress import serve
+from datetime import datetime
 
 
 app = Flask(__name__)
@@ -10,6 +11,8 @@ app = Flask(__name__)
 def index():  #return for the route
     return render_template('index.html')
     
+
+
 @app.route('/weather')
 def get_weather():
     city = request.args.get('city')
@@ -24,8 +27,11 @@ def get_weather():
         return render_template('city-not-found.html')
 
     return render_template('weather.html', 
-                           title = weather_data["name"],
+                           current_time = datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
+                           location = weather_data["name"],
+                           country = weather_data['sys']['country'],
                            status=weather_data["weather"][0]["description"].capitalize(),
+                           wind = f"{weather_data['wind']['speed']}",
                            temp=f"{weather_data['main']['temp']:.1f}",
                            feels_like=f"{weather_data['main']['feels_like']:.1f}")
 
